@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - chippy checkbox inputs</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+    integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+  <link rel="stylesheet" href="./style.css">
+
+
+
+</head>
+
+<body>
+  <ul class="filters">
+    <li>
+      <button type="button" data-post-type="post" data-tag="a" data-button-label="More Posts">Recent Work</button>
+    </li>
+  </ul>
+
+  <div class="container">
+    <ul class="ks-cboxtags">
+    </ul>
+  </div>
+</body>
+<script>
+  tags = ['a', 'b', 'c']
+  ul = document.querySelector('ul.ks-cboxtags')
+  createTag = tag => {
+    let l = document.createElement("li");
+    l.innerHTML = `<input hidden type="checkbox" id=${tag}><label for=${tag}>${tag}</label>`
+    ul.append(l)
+  }
+  tags.forEach(createTag)
+
+  // Click Handler Function
+  function clickHandler() {
+    var data = this.dataset;
+    var inputs = document.querySelectorAll('ul.ks-cboxtags li input[type="checkbox"]:checked');
+    tag = ''
+    inputs.forEach(x => tag += ' ' + x.id)
+    data.tag = tag
+    this.textContent = tag
+    // Call Ajax Load More `filter` method
+    //ajaxloadmore.filter('fade', 250, data);
+  }
+
+  // Get All Filter Buttons
+  var buttons = document.querySelectorAll('ul.filters button');
+  if (buttons) {
+    // Loop each button and add click event
+    [].forEach.call(buttons, function (button) {
+      button.addEventListener('click', clickHandler);
+    });
+  }
+</script>
+<!-- <script>
+  function clickHandler() {
+    var data = this.dataset;
+    var buttons = document.querySelectorAll('ul.ks-cboxtags li input[type="checkbox"]:checked');
+    tag = "a"
+    data.tag = tag
+    // Call Ajax Load More `filter` method
+    ajaxloadmore.filter('fade', 250, data);
+  }
+  var button = document.querySelector("div.u-layout-cell-2 > div > a")
+  button.addEventListener('click', clickHandler);
+</script> -->
