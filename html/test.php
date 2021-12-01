@@ -6,5 +6,10 @@
         <h3><?php the_title(); ?></h3>
         <p class="entry-meta"><?php the_time("F d, Y"); ?></p>
     </a>
-    <?php the_excerpt(); ?>
+    <?php get_post_meta();  the_excerpt(); ?>
 </li>
+$custom = get_post_custom();
+foreach($custom as $key => $value) {
+     echo $key.': '.$value.'<br />';
+}
+<br><br>

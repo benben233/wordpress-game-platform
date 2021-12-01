@@ -1,3 +1,18 @@
+# import requests
+#
+# appid = 1144400
+# url = "https://steamspy.com/api.php"
+# parameters = {"request": "appdetails", "appid": appid}
+# req = requests.get(url, parameters)
+# {"appid":1144400,"name": "Senren＊Banka" ,"developer":"Yuzusoft","owners":"200000",
+#  "positive":7483,"negative":54 }
+#
+# url = "http://store.steampowered.com/api/appdetails/"
+# parameters = {"appids": appid}
+# req = requests.get(url, parameters)
+# j = req.json()[str(appid)]['data']
+
+
 import pandas as pd
 
 df = pd.read_csv('steam/steam.csv', index_col='appid')
@@ -20,6 +35,7 @@ game = game.join(media.rename_axis('appid'))
 support = pd.read_csv('steam/steam_support_info.csv', index_col='steam_appid',
                       usecols=['steam_appid', 'website'])
 game = game.join(support.rename_axis('appid'))
+game['steamspy_tags'] = game['steamspy_tags'].apply(lambda x: x.split(';'))
 game.to_csv('game.csv')
 import requests
 from PIL import Image
