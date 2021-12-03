@@ -14,6 +14,12 @@
 
 <body>
   <ul class="filters">
+    <label>Order by</label>
+    <select>
+      <option value="">Release Date</option>
+      <option value="owner">Popularity</option>
+      <option value="reviews">Reviews</option>
+    </select>
     <li>
       <button type="button" data-post-type="post" data-tag="a" data-button-label="More Posts">Recent Work</button>
     </li>
@@ -26,11 +32,12 @@
   </div>
 </body>
 <script>
-  tags = ['a', 'b', 'c']
+  tags = ['Action', 'Indie', 'Free to Play', 'Adventure', 'RPG', 'Strategy', 'Multiplayer', 'Casual', 'FPS', 'Anime', 'Simulation', 'Puzzle', 'Open World', 'Early Access', 'Visual Novel']
   ul = document.querySelector('ul.ks-cboxtags')
   createTag = tag => {
     let l = document.createElement("li");
-    l.innerHTML = `<input hidden type="checkbox" id=${tag}><label for=${tag}>${tag}</label>`
+    let id = tag.toLowerCase().replaceAll(' ', '-')
+    l.innerHTML = `<input hidden type="checkbox" id="${id}"><label for="${id}">${tag}</label>`
     ul.append(l)
   }
   tags.forEach(createTag)
@@ -39,9 +46,12 @@
   function clickHandler() {
     var data = this.dataset;
     var inputs = document.querySelectorAll('ul.ks-cboxtags li input[type="checkbox"]:checked');
+    var order = document.querySelector('select')
     tag = ''
-    inputs.forEach(x => tag += ' ' + x.id)
+    inputs.forEach(x => tag += x.id + ',')
     data.tag = tag
+    data.meta_key = order.value
+    data.orderby = order.value
     this.textContent = tag
     // Call Ajax Load More `filter` method
     //ajaxloadmore.filter('fade', 250, data);
