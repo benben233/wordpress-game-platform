@@ -2,6 +2,7 @@ from wordpress_xmlrpc import Client, WordPressPost, WordPressTerm
 from wordpress_xmlrpc.compat import xmlrpc_client
 from wordpress_xmlrpc.methods import posts, media, taxonomies
 import pandas as pd
+import collections
 
 client = Client('http://localhost/wordpress/xmlrpc.php', 'user', 'admin')
 p = client.call(posts.GetPosts({'number': n}))
@@ -11,16 +12,24 @@ for i in [i.id for i in p]:
 ps = client.call(posts.GetPosts())
 client.call(posts.EditPost(p.id, p))
 
-games = pd.read_csv('game.csv')
-g = games.steamspy_tags.apply(eval)
-a = []
-for x in [x for x in g]:
-    a += x
-b = set(a)
-c = {}
-for x in b:
-    c[x] = 0
-for x in a:
-    c[x] += 1
-d = sorted(c.items(), key=lambda x: x[1], reverse=True)
-print([x[0] for x in d[:20]])
+import requests
+
+appid = 1144400
+url = "https://steamspy.com/api.php"
+parameters = {"request": "appdetails", "appid": appid}
+req = requests.get(url, parameters)
+{"appid": 1144400, "name": "Senren＊Banka", "developer": "Yuzusoft", "owners": "200000",
+ "positive": 7483, "negative": 54}
+
+url = "http://store.steampowered.com/api/appdetails/"
+parameters = {"appids": appid}
+req = requests.get(url, parameters)
+j = req.json()[str(appid)]['data']
+
+
+def count_element(df):
+    li = []
+    for row in df:
+        li += row
+    c = collections.Counter(li)
+    return pd.DataFrame.from_dict(dict(c), 'index')

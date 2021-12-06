@@ -1,19 +1,18 @@
-let l = document.createElement("li")
-
-l.innerHTML = '<input type="checkbox" id="checkboxOne" value="Rainbow Dash"><label for="checkboxOne">Rainbow Dash</label>'
-
-// Click Handler Function
 function clickHandler() {
   var data = this.dataset;
   var inputs = document.querySelectorAll('ul.ks-cboxtags li input[type="checkbox"]:checked');
+  var order = document.querySelector('select')
+  var search = document.querySelector('#searchInput')
   tag = ''
-  inputs.forEach(x => tag += ',' + x.id)
+  inputs.forEach(x => tag += x.id + ',')
   data.tag = tag
-  data.meta_key = 'reviews'
-  data.orderby = ''
+  data.meta_key = order.value
+  data.orderby = order.value
+  data.s = search.value
   // Call Ajax Load More `filter` method
   ajaxloadmore.filter('fade', 250, data);
 }
+
 var button = document.querySelector("#sec-1626 div.u-layout-cell-2 > div > a")
 button.addEventListener('click', clickHandler);
 // Get All Filter Buttons

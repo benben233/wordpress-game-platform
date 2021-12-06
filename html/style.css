@@ -3,24 +3,52 @@ html {
   margin: 0;
   padding: 0;
 }
-
 body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+  display: block;
+  height: 1000vh;
   /* fallback for old browsers */
 }
 
-.container {
-  max-width: 640px;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 13px;
+.alm-listing .css-grid {
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }
-
+@media screen and (min-width: 480px) {
+  .alm-listing .css-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media screen and (min-width: 1024px) {
+  .alm-listing .css-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+.alm-listing > div.css-grid > li.alm-item {
+  margin: 16px;
+  padding: 0px;
+  display: grid;
+  grid-template-rows: auto auto;
+  background-color: rgba(26, 26, 26, 0.685);
+}
+li.alm-item *:not(img, a) {
+  padding: 0 10px;
+}
+.alm-listing > div.css-grid > li.alm-item > a > img {
+  max-width: inherit;
+  height: auto;
+  position: relative;
+}
+div.u-container-layout.u-container-layout-2 {
+	position: -webkit-sticky;
+	position: sticky;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    top: 83px;
+    height: fit-content;  
+}
 ul.ks-cboxtags {
   list-style: none;
-  padding: 10px;
+  padding: 2px;
+  margin: 2px;
 }
 ul.ks-cboxtags li {
   display: inline;
@@ -41,13 +69,11 @@ ul.ks-cboxtags li label {
   -webkit-tap-highlight-color: transparent;
   transition: all 0.2s;
 }
-
 ul.ks-cboxtags li label {
-  margin: 4px;
+  margin: 3px;
   padding: 4px 5px;
   cursor: pointer;
 }
-
 ul.ks-cboxtags li label::before {
   display: inline-block;
   font-style: normal;
@@ -55,8 +81,8 @@ ul.ks-cboxtags li label::before {
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
   font-family: "Font Awesome 5 Free";
-  font-weight: 1000;
-  font-size: 13px;
+  font-weight: 900;
+  font-size: 12px;
   padding: 2px 6px 2px 2px;
   content: "\f067";
   transition: transform 0.3s ease-in-out;
@@ -67,14 +93,12 @@ ul.ks-cboxtags li input[type="checkbox"]:checked + label::before {
   transform: rotate(-360deg);
   transition: transform 0.3s ease-in-out;
 }
-
 ul.ks-cboxtags li input[type="checkbox"]:checked + label {
   border: 2px solid #1b7bf8;
   background-color: #127dd4ee;
   color: #fff;
   transition: all 0.2s;
 }
-
 ul.ks-cboxtags li input[type="checkbox"] {
   display: absolute;
 }
@@ -84,35 +108,4 @@ ul.ks-cboxtags li input[type="checkbox"] {
 }
 ul.ks-cboxtags li input[type="checkbox"]:focus + label {
   border: 2px solid #e9a1ff;
-}
-
-.alm-listing .css-grid {
-  display: inline-grid;
-  grid-template-columns: 1fr 1fr 1fr;
-}
-@media screen and (min-width: 480px) {
-  .alm-listing .css-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-@media screen and (min-width: 1024px) {
-  .alm-listing .css-grid {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-}
-.alm-listing > div.css-grid > li.alm-item {
-  margin: 25px;
-  padding: 0;
-  display: grid;
-  grid-template-rows: auto auto;
-}
-.alm-listing > div.css-grid > li.alm-item > a > img {
-    max-width: 460px;
-}
-.alm-listing .css-grid > div {
-  margin: 0 5px 10px;
-  padding-bottom: 25px;
-  -webkit-border-radius: 2px;
-  border-radius: 2px;
-  border: 1px solid #efefef;
 }

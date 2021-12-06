@@ -69,3 +69,18 @@ for appid in game.appid:
     else:
         print(f'{appid} Error')
     print('OK')
+
+
+# games = pd.read_csv('game.csv')
+# g = games.steamspy_tags.apply(eval)
+# a = []
+# for x in [x for x in g]:
+#     a += x
+# b = set(a)
+# c = {}
+# for x in b:
+#     c[x] = 0
+# for x in a:
+#     c[x] += 1
+# d = sorted(c.items(), key=lambda x: x[1], reverse=True)
+# print([x[0] for x in d[:20]])
