@@ -12,7 +12,11 @@
 # req = requests.get(url, parameters)
 # j = req.json()[str(appid)]['data']
 
-
+import requests
+from PIL import Image
+from io import BytesIO
+import os
+from collections import Counter
 import pandas as pd
 
 df = pd.read_csv('steam/steam.csv', index_col='appid')
@@ -37,11 +41,6 @@ support = pd.read_csv('steam/steam_support_info.csv', index_col='steam_appid',
 game = game.join(support.rename_axis('appid'))
 game['steamspy_tags'] = game['steamspy_tags'].apply(lambda x: x.split(';'))
 game.to_csv('game.csv')
-import requests
-from PIL import Image
-from io import BytesIO
-import os
-
 
 media = pd.read_csv('game.csv', index_col='appid', usecols=['appid', 'header_image', 'background'])
 for appid, img in media.iterrows():
@@ -63,13 +62,33 @@ for appid, img in media.iterrows():
             print(f'Error: {req.status_code}')
 
 for appid in game.appid:
-    i=Image.open(f'media/{appid}/header.jpg')
+    i = Image.open(f'media/{appid}/header.jpg')
     if i.height == 215 and i.width == 460:
         continue
     else:
         print(f'{appid} Error')
     print('OK')
 
+
+def count_element(data: pd.Series):
+    li = []
+    if type(data.iloc[0]) == str:
+        for row in data:
+            li += [row]
+    else:
+        for row in data:
+            li += row
+    c = Counter(li)
+    return pd.DataFrame.from_dict(dict(c), 'index')[0]
+
+
+tags = count_element(game['steamspy_tags'].apply(eval))
+tags = tags[tags > 2].sort_values(ascending=False)
+publishers = count_element(game['publisher'])
+publishers = publishers[publishers > 2].sort_values(ascending=False)
+
+with open('html/publishers_tags.json','w') as f:
+    f.write(f"[{publishers.to_json()},{tags.to_json()}]")
 
 # games = pd.read_csv('game.csv')
 # g = games.steamspy_tags.apply(eval)

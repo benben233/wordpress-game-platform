@@ -11,10 +11,16 @@ div.glsr-reviews p {
 .glsr-default form.glsr-form textarea.glsr-textarea {
   color: black;
 }
+button {
+  color: black;
+}
+div.cbxwpbkmarklistwrap {
+  color: black;
+}
 a.cbxwpbkmarktrig,
 div.u-post-tags {
   filter: invert();
 }
-#sec-6aab {
+#page > #sec-6aab {
   background-color: black !important;
 }

@@ -2,7 +2,7 @@ from wordpress_xmlrpc import Client, WordPressPost, WordPressTerm
 from wordpress_xmlrpc.compat import xmlrpc_client
 from wordpress_xmlrpc.methods import posts, media, taxonomies
 import pandas as pd
-import collections
+
 
 client = Client('http://localhost/wordpress/xmlrpc.php', 'user', 'admin')
 p = client.call(posts.GetPosts({'number': n}))
@@ -27,9 +27,5 @@ req = requests.get(url, parameters)
 j = req.json()[str(appid)]['data']
 
 
-def count_element(df):
-    li = []
-    for row in df:
-        li += row
-    c = collections.Counter(li)
-    return pd.DataFrame.from_dict(dict(c), 'index')
+
+

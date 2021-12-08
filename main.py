@@ -4,10 +4,10 @@ from wordpress_xmlrpc.compat import xmlrpc_client
 from wordpress_xmlrpc.methods import posts, media, taxonomies
 from datetime import datetime
 
-games = pd.read_csv('game.csv')
+client = Client('http://localhost/wordpress/xmlrpc.php', 'user', 'admin')
+games = pd.read_csv('game.csv', index_col='appid')
 games = games.fillna('')
 games = games.loc[101:]
-client = Client('http://localhost/wordpress/xmlrpc.php', 'user', 'admin')
 
 
 def post_game(game):
@@ -43,14 +43,39 @@ def post_game(game):
     # client.call(posts.EditPost(p.id,p))
 
 
-ps = client.call(posts.GetPosts({'number': 51}))
+def get_post(do=None):
+    ps = []
+    # get pages in batches of 20
+    offset = 0
+    increment = 20
+    while True:
+        page = client.call(posts.GetPosts({'number': increment, 'offset': offset}))
+        if len(page) == 0:
+            break  # no more posts returned
+        for p in page:
+            do(p)
+        ps += page
+        offset = offset + increment
+    return ps
 
 
-def edit_game(ps):
-    for post in ps:
-        game = games[games.appid == int(post.custom_fields[0]['value'])]
-        post.terms_names = {'post_tag': eval(game['steamspy_tags'].values[0])}
-        client.call(posts.EditPost(post.id, post))
+def edit_game(post):
+    print("Edit " + post.title)
+    game = games.loc[int(post.custom_fields[0]['value'])]
+    post.terms_names = {'category': [game.publisher]}
+    post.thumbnail = post.thumbnail['attachment_id']
+    client.call(posts.EditPost(post.id, post))
+
+
+def remove_category(p):
+    print("Edit " + p.title)
+    t = p.terms
+    un = [x for x in t if x.id == '1']
+    if len(un) == 0:
+        return
+    t.remove(un[0])
+    p.thumbnail = p.thumbnail['attachment_id']
+    client.call(posts.EditPost(p.id, p))
 
 
 def game_content(game):
@@ -77,5 +102,4 @@ def game_content(game):
     return c
 
 
-for n, g in games.iterrows():
-    post_game(g)
+get_post()

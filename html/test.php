@@ -27,8 +27,6 @@ function my_games($args, $id)
         'reviews' => [
             'key'     => 'reviews',
             'type'    => 'numeric',
-            'com'
-
         ],
         'owners' =>  [
             'key'     =>  'owners',
