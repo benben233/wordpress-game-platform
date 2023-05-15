@@ -1,0 +1,26 @@
+div.u-container-layout.u-container-layout-3 {
+  color: white;
+  padding: 0;
+}
+div.glsr,
+div.glsr-reviews p {
+  color: white;
+}
+.glsr-default form.glsr-form input.glsr-input,
+.glsr-default form.glsr-form select.glsr-select,
+.glsr-default form.glsr-form textarea.glsr-textarea {
+  color: black;
+}
+button {
+  color: black;
+}
+div.cbxwpbkmarklistwrap {
+  color: black;
+}
+a.cbxwpbkmarktrig,
+div.u-post-tags {
+  filter: invert();
+}
+#page > #sec-6aab {
+  background-color: black !important;
+}
